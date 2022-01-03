@@ -1,13 +1,9 @@
 <?php
 
-use App\Http\Controllers\BlogCont;
+use App\Http\Controllers\BlogPostCategoryController;
 use App\Http\Controllers\blogPostController;
-use App\Http\Controllers\BlogsController;
-use App\Http\Controllers\LaravelBlogsController;
-use App\Http\Controllers\LBlogsController;
-use App\Http\Controllers\postCont;
+use App\Http\Controllers\CategoryTypeController;
 use Illuminate\Support\Facades\Route;
-// use App\Http\Controllers\postCont;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,45 +22,32 @@ use Illuminate\Support\Facades\Route;
 //     return view('blog.welcome');
 // })->name('blog.welcome');
 
-Route::get('about', function () {
+Route::get('about', 
+function () {
     return view('others.about');
 })->name('others.about');
 
 Route::group(['prefix' => 'admin'], function () {
-    Route::get('blog-post', function () {
-        return view('admin.blog-post');
-    })->name('admin.blog-post');
-    Route::post('create', function (\Illuminate\Http\Request $request, Illuminate\Validation\Factory $validator) {
-        $validation = $validator->make($request->all(),
-        [
-            'title' => 'required|min:10',
-            'content' => 'required|min:20'
-        ]);
-        if($validation->fails()){
-            return redirect()->back()->withErrors($validation);
-        }
-        return redirect()
-        ->route('admin.blog-post')
-        // $request->input('title')
-        ->with('notif', 'new created Blog: '. $request->input('title'));
-    })->name('create');
+    Route::get('category', [CategoryTypeController::class, 'showInCategoryPage'])->name('admin.category');
+    Route::get('blog-post', [CategoryTypeController::class, 'show'])->name('admin.blog-post');
+    Route::post('store', [blogPostController::class, 'store'])->name('create');
+    Route::post('store/category', [CategoryTypeController::class, 'store'])->name('create-category');
+    Route::post('update/category', [CategoryTypeController::class, 'update'])->name('update-category');
+    Route::get('update/category/{id}/{name}', function($id, $name){
+        return view('admin.category-update',['id'=>$id, 'name'=>$name]);
+    })->name('update-category-page');
+    Route::post('delete',[CategoryTypeController::class, 'delete'])->name('delete');
+
 });
 
-Route::get('contact', function(){
+Route::get('contact', function () {
     return view('others.contact');
 })->name('others.contact');
 
-// Route::get('article/{id}', function($id){
-//     $data = [
-//         'id' => $id
-//     ];
-//     return view('blog.article', ['data' => $data]);
-//     //return $data;
-// })->name('blog.article');
+Route::get('article/{id}', [blogPostController::class, 'showById'],)->name('blog.article');
 
-// Route::get('/home', function () {
-//     return view('blog.welcome');
-// })->name('blog.welcome');
+Route::get('/', [blogPostController::class, 'show'])->name('blog.welcome');
 
-Route::get('article/{id}', [blogPostController::class, 'showById'])->name('blog.article');
-Route::get('/',[blogPostController::class,'show'] )->name('blog.welcome');
+Route::get('*', [CategoryTypeController::class, 'show'])->name('cat.welcome');
+
+Route::get('category/{id}',[BlogPostCategoryController::class, 'sortBlogPostByCategory'])->name('category');

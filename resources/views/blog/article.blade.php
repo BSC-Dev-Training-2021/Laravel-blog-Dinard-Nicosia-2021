@@ -2,7 +2,7 @@
 @section('content')
 
 <div class="col-lg-8">
-    
+
     <!-- Post content-->
             <article>
         <!-- Post header-->
@@ -10,18 +10,25 @@
             <!-- Post title-->
             <h1 class="fw-bolder mb-1">{{$data->title}}</h1>
             <!-- Post meta content-->
-            <div class="text-muted fst-italic mb-2">{{
-                $mysqldate = date('g:i a \o\n l jS F Y', strtotime($data->created))
-                }}</div>
+            <div class="text-muted fst-italic mb-2">
+                {{$mysqldate = date('g:i a \o\n l jS F Y', strtotime($data->created_at))}}
+                </div>
             <!-- Post categories-->
-            <a class="badge bg-secondary text-decoration-none link-light" href="#!">Web Design</a>
-            <a class="badge bg-secondary text-decoration-none link-light" href="#!">Freebies</a>
+            @foreach ($bcData as $bcItem)
+                @foreach ($cData as $cItem)
+                    @if ($bcItem->category_id == $cItem->id)
+                        <a class="badge bg-secondary text-decoration-none link-light" href="#!">{{$cItem->name}}</a>
+                    @endif
+                @endforeach
+            @endforeach
         </header>
         <!-- Preview image figure-->
         <figure class="mb-4"><img class="img-fluid rounded" src="{{URL::to('assets/images/'.$data->img_link.'')}}" alt="..." /></figure>
         <!-- Post content-->
         <section class="mb-5">
-            {{$data->content}}
+            <p class="fs-5 mb-4">{{$data->description}}</p>
+            <p class="fs-5 mb-4">{{$data->content}}</p>
+            
         </section>
     </article>
 

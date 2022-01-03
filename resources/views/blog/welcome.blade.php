@@ -9,67 +9,64 @@
         </div>
     </div>
 </header>
-
+    
         <!-- Blog entries-->
         <div class="col-lg-8">
-            @foreach ($data as $item)
+            @if (isset($bpcData))
+                @foreach ($bpcData as $bpcitem)
+                    @foreach ($data as $item)
+                        @if ($bpcitem->blog_post_id == $item->id)             
             <!-- Featured blog post-->
             <div class="card mb-4">
                 <a href="#!"><img class="card-img-top" src="{{URL::to('assets/images/'.$item->img_link.'')}}" alt="..." /></a>
                 <div class="card-body">
-                    <div class="small text-muted">{{$item->created}}</div>
+                    <div class="small text-muted">{{$item->created_at}}</div>
                     <h2 class="card-title">{{$item->title}}</h2>
                     <p class="card-text">{{$item->description}}</p>
                     <a class="btn btn-primary" href="{{route('blog.article', ['id' => $item->id])}}">Read more →</a>
                 </div>
             </div>
+             @endif
+             @endforeach
+             @endforeach   
+             @else
+             @foreach ($data as $item)     
+             <!-- Featured blog post-->
+                 <div class="card mb-4">
+                     <a href="#!"><img class="card-img-top" src="{{URL::to('assets/images/'.$item->img_link.'')}}" alt="..." /></a>
+                         <div class="card-body">
+                             <div class="small text-muted">{{$item->created_at}}</div>
+                                 <h2 class="card-title">{{$item->title}}</h2>
+                             <p class="card-text">{{$item->description}}</p>
+                         <a class="btn btn-primary" href="{{route('blog.article', ['id' => $item->id])}}">Read more →</a>
+                     </div>
+                 </div>
+         @endforeach
+             
+             @endif
+
+
+
+
             <!-- Nested row for non-featured blog posts-->
-            @endforeach
+            
             <div class="row">
-                <div class="col-lg-6">
+                
                     <!-- Blog post-->
+                    @foreach ($data as $item)
+                    <div class="col-lg-6">
                     <div class="card mb-4">
-                        <a href="#!"><img class="card-img-top" src="https://dummyimage.com/700x350/dee2e6/6c757d.jpg" alt="..." /></a>
+                        <a href="#!"><img class="card-img-top" src="{{URL::to('assets/images/'.$item->img_link.'')}}" alt="..." /></a>
                         <div class="card-body"> 
-                            <div class="small text-muted">January 1, 2021</div>
-                            <h2 class="card-title h4">Post Title</h2>
-                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla.</p>
-                            <a class="btn btn-primary" href="article.html">Read more →</a>
-                        </div>
-                    </div>
-                    <!-- Blog post-->
-                    <div class="card mb-4">
-                        <a href="#!"><img class="card-img-top" src="https://dummyimage.com/700x350/dee2e6/6c757d.jpg" alt="..." /></a>
-                        <div class="card-body">
-                            <div class="small text-muted">January 1, 2021</div>
-                            <h2 class="card-title h4">Post Title</h2>
-                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla.</p>
-                            <a class="btn btn-primary" href="article.html">Read more →</a>
+                            <div class="small text-muted">{{$item->created_at}}</div>
+                            <h2 class="card-title h4">{{$item->title}}</h2>
+                            <p class="card-text">{{$item->description}}</p>
+                            <a class="btn btn-primary" href="{{route('blog.article', ['id' => $item->id])}}">Read more →</a>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6">
+                    @endforeach
                     <!-- Blog post-->
-                    <div class="card mb-4">
-                        <a href="#!"><img class="card-img-top" src="https://dummyimage.com/700x350/dee2e6/6c757d.jpg" alt="..." /></a>
-                        <div class="card-body">
-                            <div class="small text-muted">January 1, 2021</div>
-                            <h2 class="card-title h4">Post Title</h2>
-                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla.</p>
-                            <a class="btn btn-primary" href="article.html">Read more →</a>
-                        </div>
-                    </div>
-                    <!-- Blog post-->
-                    <div class="card mb-4">
-                        <a href="#!"><img class="card-img-top" src="https://dummyimage.com/700x350/dee2e6/6c757d.jpg" alt="..." /></a>
-                        <div class="card-body">
-                            <div class="small text-muted">January 1, 2021</div>
-                            <h2 class="card-title h4">Post Title</h2>
-                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla? Quos cum ex quis soluta, a laboriosam.</p>
-                            <a class="btn btn-primary" href="article.html">Read more →</a>
-                        </div>
-                    </div>
-                </div>
             </div>
             <!-- Pagination-->
             <nav aria-label="Pagination">

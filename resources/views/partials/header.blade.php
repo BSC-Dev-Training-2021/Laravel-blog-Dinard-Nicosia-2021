@@ -8,7 +8,7 @@
                 <li class="nav-item"><a class="nav-link" href="{{route('others.about')}}">About</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{route('others.contact')}}">Contact</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{route('admin.blog-post')}}">Post</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Category</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{route('admin.category')}}">Category</a></li>
             </ul>
         </div>
     </div>

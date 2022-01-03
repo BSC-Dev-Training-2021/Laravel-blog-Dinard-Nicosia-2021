@@ -9,10 +9,33 @@ class blog_post extends Model
 {
     use HasFactory;
 
-    public function findAll(){
-        return $this->all();
+    protected $fillable = 
+    [
+        'content',
+         'title',
+          'description',
+           'img_link',
+            'created_by',
+             'created',
+              'updated'
+    ];
+
+    public function findAll()
+    {
+        return $this->all()->sortByDesc('id');
     }
-    public function findById($id){
-        return $this->find($id);
+
+    public function findById($data)
+    {
+        
+        if (is_array($data)) {
+            foreach ($data as $key => $value) {
+                $result[] = $this->where($key, $value)->get();
+            }
+            return $result;
+        }
+        return $this->find($data);
+
     }
+
 }

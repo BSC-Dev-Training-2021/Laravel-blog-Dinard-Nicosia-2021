@@ -4,6 +4,7 @@
 @include('partials.head')
 </head>
 <body>
+    
     @include('partials.header')
     <div class="container mt-5">
         <div class="row">
